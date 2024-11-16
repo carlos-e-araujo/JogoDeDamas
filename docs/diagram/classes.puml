@@ -1,0 +1,53 @@
+@startuml classes
+
+class Tabuleiro {
+    - matrizCasas: Casa[][]
+
+    + obterCasa(x: int, y: int): Casa
+    + verificarMovimento(origem: Casa, destino: Casa): bool
+}
+
+class Jogador {
+    - cor: char
+    - listaPecas: Peca[]
+
+    + realizarJogada(origem: Casa, destino: Casa, tabuleiro: Tabuleiro, jogador: Jogador): boolean
+}
+
+class Jogo {
+    - tabuleiroPermanente: Tabuleiro
+    - tabuleiroTemporario: Tabuleiro
+    - jogador1: Jogador
+    - jogador2: Jogador
+    - jogadorAtual: Jogador
+    - maximoDeCapturasPossiveis: int
+    - capturasTemporarias: int
+
+    + trocarJogador(): void
+    + contabilizarMaximoDeCapturasPossiveis(): int
+    + verificarFimDeJogo(): boolean
+}
+
+class Peca {
+    - cor: char
+    - eDama: boolean
+    - casa: Casa
+
+    + movimentosPossiveis(tabuleiro: Tabuleiro): Casa[]
+    + casaAtual(): Casa
+}
+
+class Casa {
+    - estaOcupada: boolean
+    - peca: Peca
+    - x: int
+    - y: int
+}
+
+Jogo "1..1" *-- "1..1" Tabuleiro : Possui
+Jogo "1..1" *-- "*..*" Jogador : Possui
+Tabuleiro "1..1" *- "*..*" Casa : Possui
+Casa "1..1" *-- "0..1" Peca : Possui
+Jogador "1..1" -- "0..*" Peca : Possui
+
+@enduml
